@@ -1,0 +1,10 @@
+proxies:
+  - name: Traffic Reset
+    type: select
+    proxies:
+      - Worker A
+      - Worker B
+  - name: Worker A
+    type: direct
+  - name: Worker B
+    type: direct

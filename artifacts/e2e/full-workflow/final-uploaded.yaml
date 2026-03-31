@@ -1,0 +1,42 @@
+listeners:
+  - name: mixed111
+    type: mixed
+    port: 42111
+    proxy: 111
+  - name: mixed830
+    type: mixed
+    port: 42830
+    proxy: 830
+proxy-groups:
+  - name: Worker Group
+    type: select
+    proxies:
+      - Traffic Reset
+      - Keep Me
+proxies:
+  - name: Keep Me
+    type: direct
+  - name: 111
+    type: direct
+  - name: "830"
+    type: vless
+    server: zdegeuy2.bia3.top
+    port: 21375
+    uuid: d7baecff-1956-46ce-c89c-bd81098d7223
+    flow: xtls-rprx-vision
+    tls: true
+    servername: ndl.certainteed.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: W9BjX6YmCIVsjhKMlz233Yoe0xcf0SVHfvPKqbf3vCg
+    network: tcp
+    udp: true
+  - name: Traffic Reset
+    type: select
+    proxies:
+      - Worker A
+      - Worker B
+  - name: Worker A
+    type: direct
+  - name: Worker B
+    type: direct

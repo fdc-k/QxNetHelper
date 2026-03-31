@@ -1,0 +1,27 @@
+listeners:
+  - name: mixed111
+    type: mixed
+    port: 42111
+    proxy: 111
+proxy-groups:
+  - name: Worker Group
+    type: select
+    proxies:
+      - Traffic Reset
+      - Keep Me
+proxies:
+  - name: Keep Me
+    type: direct
+  - name: 111
+    type: direct
+  - name: 830
+    type: direct
+  - name: Traffic Reset
+    type: select
+    proxies:
+      - Legacy A
+      - Legacy B
+  - name: Legacy A
+    type: direct
+  - name: Legacy B
+    type: direct

@@ -1,0 +1,1 @@
+{"ok":false,"command":"init","error":{"code":"validation_failed","message":"config-dir must be a Feishu folder URL or folder token"}}

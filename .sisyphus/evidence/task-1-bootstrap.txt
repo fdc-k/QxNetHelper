@@ -1,0 +1,75 @@
+=== Task 1 Bootstrap Evidence ===
+Date: Tue Mar 31 04:13:13 CST 2026
+
+=== npm install ===
+
+up to date, audited 220 packages in 2s
+
+63 packages are looking for funding
+  run `npm fund` for details
+
+4 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+=== npm run lint ===
+
+> qxnetworkhelper@0.1.0 lint
+> eslint src tests
+
+Exit code: 0
+
+=== npm run typecheck ===
+
+> qxnetworkhelper@0.1.0 typecheck
+> tsc --noEmit
+
+Exit code: 0
+
+=== npm run test ===
+
+> qxnetworkhelper@0.1.0 test
+> vitest run
+
+
+ RUN  v1.6.1 /Users/k/projects/private/QxNetworkHelper
+
+ ✓ tests/bootstrap.test.ts  (2 tests) 1ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  04:13:18
+   Duration  265ms (transform 23ms, setup 0ms, collect 16ms, tests 1ms, environment 0ms, prepare 71ms)
+
+Exit code: 0
+
+=== npm run build ===
+
+> qxnetworkhelper@0.1.0 build
+> tsc
+
+Exit code: 0
+
+=== dist/cli.js exists ===
+-rw-r--r--@ 1 k  staff  1737 Mar 31 04:13 dist/cli.js
+
+=== CLI --help output ===
+Usage: qxnethelper [options] [command]
+
+CLI tool for managing QX Network configurations
+
+Options:
+  -V, --version           output the version number
+  -h, --help              display help for command
+
+Commands:
+  init [options]          Initialize qxnethelper configuration
+  update-env [options]    Update environment configuration
+  refresh-base [options]  Refresh base configuration from subscription
+  help [command]          display help for command
+
+=== CLI version ===
+0.1.0

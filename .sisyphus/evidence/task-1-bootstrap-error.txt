@@ -1,0 +1,23 @@
+=== Task 1 Bootstrap Error Evidence ===
+Date: Tue Mar 31 04:13:18 CST 2026
+
+=== Testing missing script (should fail) ===
+npm error Missing script: "does-not-exist"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/k/.npm/_logs/2026-03-30T20_13_18_543Z-debug-0.log
+Exit code: 1
+
+=== Testing stub commands (should exit 2) ===
+init command:
+Error: init command not implemented
+Exit code: 2
+
+update-env command:
+Error: update-env command not implemented
+Exit code: 2
+
+refresh-base command:
+Error: refresh-base command not implemented
+Exit code: 2

@@ -1,0 +1,49 @@
+------formdata-undici-028131659924
+Content-Disposition: form-data; name="file_name"
+
+config_0331_1.yaml
+------formdata-undici-028131659924
+Content-Disposition: form-data; name="parent_type"
+
+explorer
+------formdata-undici-028131659924
+Content-Disposition: form-data; name="parent_node"
+
+fldcnQaFolder123
+------formdata-undici-028131659924
+Content-Disposition: form-data; name="size"
+
+572
+------formdata-undici-028131659924
+Content-Disposition: form-data; name="file"; filename="config_0331_1.yaml"
+Content-Type: application/x-yaml
+
+listeners:
+  - name: mixed111
+    type: mixed
+    port: 42111
+    proxy: 111
+  - name: mixed830
+    type: mixed
+    port: 42830
+    proxy: 830
+proxies:
+  - name: Keep Me
+    type: direct
+  - name: Traffic Reset
+    type: direct
+  - name: "830"
+    type: vless
+    server: zdegeuy2.bia3.top
+    port: 21375
+    uuid: d7baecff-1956-46ce-c89c-bd81098d7223
+    flow: xtls-rprx-vision
+    tls: true
+    servername: ndl.certainteed.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: W9BjX6YmCIVsjhKMlz233Yoe0xcf0SVHfvPKqbf3vCg
+    network: tcp
+    udp: true
+
+------formdata-undici-028131659924--

@@ -1,0 +1,52 @@
+[
+  {
+    "method": "POST",
+    "path": "/open-apis/auth/v3/tenant_access_token/internal"
+  },
+  {
+    "method": "GET",
+    "path": "/open-apis/drive/v1/files/fldcnQaFolder123/children",
+    "query": {}
+  },
+  {
+    "method": "POST",
+    "path": "/open-apis/auth/v3/tenant_access_token/internal"
+  },
+  {
+    "method": "GET",
+    "path": "/open-apis/drive/v1/files/fldcnQaFolder123/children",
+    "query": {}
+  },
+  {
+    "method": "GET",
+    "path": "/open-apis/drive/v1/files/source-file/download"
+  },
+  {
+    "method": "POST",
+    "path": "/open-apis/drive/v1/files/upload_all"
+  },
+  {
+    "method": "GET",
+    "path": "/subscription.yaml",
+    "query": {
+      "token": "e2e-secret-token"
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/open-apis/auth/v3/tenant_access_token/internal"
+  },
+  {
+    "method": "GET",
+    "path": "/open-apis/drive/v1/files/fldcnQaFolder123/children",
+    "query": {}
+  },
+  {
+    "method": "GET",
+    "path": "/open-apis/drive/v1/files/uploaded-1/download"
+  },
+  {
+    "method": "POST",
+    "path": "/open-apis/drive/v1/files/upload_all"
+  }
+]

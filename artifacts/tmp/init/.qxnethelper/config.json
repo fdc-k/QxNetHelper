@@ -1,0 +1,8 @@
+{
+  "folderUrl": "https://feishu.cn/drive/folder/fldcnTestFolder123",
+  "folderToken": "fldcnTestFolder123",
+  "subLink": "https://example.test/subscription.yaml",
+  "timezone": "Asia/Shanghai",
+  "authMode": "tenant_access_token",
+  "schemaVersion": 1
+}

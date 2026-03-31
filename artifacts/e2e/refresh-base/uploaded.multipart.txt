@@ -1,0 +1,48 @@
+------formdata-undici-023806607471
+Content-Disposition: form-data; name="file_name"
+
+config_0331_1.yaml
+------formdata-undici-023806607471
+Content-Disposition: form-data; name="parent_type"
+
+explorer
+------formdata-undici-023806607471
+Content-Disposition: form-data; name="parent_node"
+
+fldcnQaFolder123
+------formdata-undici-023806607471
+Content-Disposition: form-data; name="size"
+
+452
+------formdata-undici-023806607471
+Content-Disposition: form-data; name="file"; filename="config_0331_1.yaml"
+Content-Type: application/x-yaml
+
+proxy-groups:
+  - name: Worker Group
+    type: select
+    proxies:
+      - Traffic Reset
+listeners:
+  - name: mixedkeep
+    type: mixed
+    port: 42111
+    proxy: Keep Me
+  - name: mixedgroup
+    type: mixed
+    port: 42112
+    proxy: Worker Group
+proxies:
+  - name: Keep Me
+    type: direct
+  - name: Traffic Reset
+    type: select
+    proxies:
+      - Worker A
+      - Worker B
+  - name: Worker A
+    type: direct
+  - name: Worker B
+    type: direct
+
+------formdata-undici-023806607471--

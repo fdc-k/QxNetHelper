@@ -1,0 +1,8 @@
+{
+  "folderUrl": null,
+  "folderToken": "fldcnQaFolder123",
+  "subLink": "https://example.test/subscription.yaml?token=e2e-secret-token",
+  "timezone": "Asia/Shanghai",
+  "authMode": "tenant_access_token",
+  "schemaVersion": 1
+}

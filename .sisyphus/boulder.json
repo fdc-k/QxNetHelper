@@ -1,0 +1,116 @@
+{
+  "active_plan": "/Users/k/projects/private/QxNetworkHelper/.sisyphus/plans/qxnethelper-0331-0243.md",
+  "started_at": "2026-03-30T19:54:40.793Z",
+  "session_ids": [
+    "ses_2bfe234beffe0pzLgTZSlzZEEJ",
+    "ses_2bfac2c80ffe5BQDlI1iQUgOvZ",
+    "ses_2bfa117efffeOt2k7gM8feejXX",
+    "ses_2bf60ffd4ffe6b0xJtfIJcmydP",
+    "ses_2bc3574b2ffeFArbmq6a69ISpJ",
+    "ses_2bc2079f7ffed2wie203eDt1Ej",
+    "ses_2bc207970ffedPdJC3nBupZOQ9",
+    "ses_2bc0af556ffeEWxoh1NqXfSNKc",
+    "ses_2bbff003fffexHp7H7g72bHp7p",
+    "ses_2bbf28cddffeewDK5f8VfNB3uR",
+    "ses_2bbe195a6ffesizQx1lKLncMOq",
+    "ses_2bbe0a87dffeRiaCY8p9fPdzsU",
+    "ses_2bbde1f65ffeMW43YODW5GH0DZ",
+    "ses_2bbd5176cffeThTCF1yps6JEJS",
+    "ses_2bbc23212ffeYTbCgBjKl9dT34",
+    "ses_2bbc23144ffe2Qu1VspCZQlyYn",
+    "ses_2bbc2337dffeZOiVWUhc6UT1Kt",
+    "ses_2bbc232c3ffe53Rtp6BwrYKLBm",
+    "ses_2bbb79fc8ffeC4pj7V8SJx897y",
+    "ses_2bbacd1bfffeMb5A3edrj72xo6",
+    "ses_2bba38f28ffeR9qJTHL8kgAUG9",
+    "ses_2bba38e63ffeRF9fAJtRgoSMHL",
+    "ses_2bba38ff9ffe6uNry4vlAC1H4T",
+    "ses_2bb9cf244ffefi3pZ0OAchkro5",
+    "ses_2bb99ad66ffei8HkNpC5occHrj"
+  ],
+  "plan_name": "qxnethelper-0331-0243",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Bootstrap the single-package CLI workspace",
+      "session_id": "ses_2bfa117efffeOt2k7gM8feejXX",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-03-30T20:13:56.664Z"
+    },
+    "todo:2": {
+      "task_key": "todo:2",
+      "task_label": "2",
+      "task_title": "Implement config schema and `init` command",
+      "session_id": "ses_2bf60ffd4ffe6b0xJtfIJcmydP",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-03-30T21:24:31.475Z"
+    },
+    "todo:3": {
+      "task_key": "todo:3",
+      "task_label": "3",
+      "task_title": "Build the Feishu tenant-token Drive client",
+      "session_id": "ses_2bc3574b2ffeFArbmq6a69ISpJ",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T12:22:56.857Z"
+    },
+    "todo:4": {
+      "task_key": "todo:4",
+      "task_label": "4",
+      "task_title": "Implement YAML document primitives and deterministic config-file selection",
+      "session_id": "ses_2bc2079f7ffed2wie203eDt1Ej",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T12:31:51.524Z"
+    },
+    "todo:6": {
+      "task_key": "todo:6",
+      "task_label": "6",
+      "task_title": "Implement the `update-env` end-to-end workflow",
+      "session_id": "ses_2bc0af556ffeEWxoh1NqXfSNKc",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T13:04:11.667Z"
+    },
+    "todo:7": {
+      "task_key": "todo:7",
+      "task_label": "7",
+      "task_title": "Build subscription-YAML parsing and `Traffic Reset` tail extraction",
+      "session_id": "ses_2bbff003fffexHp7H7g72bHp7p",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T13:18:25.956Z"
+    },
+    "todo:8": {
+      "task_key": "todo:8",
+      "task_label": "8",
+      "task_title": "Implement the `refresh-base` end-to-end workflow",
+      "session_id": "ses_2bbf28cddffeewDK5f8VfNB3uR",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-03-31T13:34:27.500Z"
+    },
+    "todo:9": {
+      "task_key": "todo:9",
+      "task_label": "9",
+      "task_title": "Create the thin skill wrapper and trigger grammar",
+      "session_id": "ses_2bbde1f65ffeMW43YODW5GH0DZ",
+      "agent": "Sisyphus-Junior",
+      "category": "writing",
+      "updated_at": "2026-03-31T13:49:15.608Z"
+    },
+    "todo:10": {
+      "task_key": "todo:10",
+      "task_label": "10",
+      "task_title": "Add CI, packaging, fixtures, and QA hardening",
+      "session_id": "ses_2bbd5176cffeThTCF1yps6JEJS",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-03-31T14:10:10.499Z"
+    }
+  }
+}
