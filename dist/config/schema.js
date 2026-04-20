@@ -24,11 +24,13 @@ export const subLinkSchema = z
     .string()
     .url('sub-link must be a valid URL')
     .refine((value) => new URL(value).protocol === 'https:', 'sub-link must be a valid HTTPS URL');
+export const DEFAULT_MITCE_LINK = 'https://app.mitce.net/?sid=564180&token=srvyubgg';
 export const initInputSchema = z.object({
     appId: z.string().trim().min(1, 'app-id is required'),
     appSecret: z.string().trim().min(1, 'app-secret is required'),
     configDir: z.string().trim().min(1, 'config-dir is required'),
     subLink: subLinkSchema,
+    mitceLink: subLinkSchema.optional(),
     configRoot: z.string().trim().min(1, 'config-root is required'),
     json: z.boolean(),
 });
@@ -36,6 +38,7 @@ export const persistedConfigSchema = z.object({
     folderUrl: z.string().url().nullable(),
     folderToken: folderTokenSchema,
     subLink: subLinkSchema,
+    mitceLink: subLinkSchema.default(DEFAULT_MITCE_LINK),
     timezone: z.literal(CONFIG_TIMEZONE),
     authMode: z.literal(CONFIG_AUTH_MODE),
     schemaVersion: z.literal(CONFIG_SCHEMA_VERSION),

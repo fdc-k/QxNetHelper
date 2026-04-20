@@ -5,7 +5,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 import nock from 'nock';
-import { afterEach, describe, expect, test } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { run } from '../../src/cli.js';
 
@@ -18,6 +18,7 @@ const subscriptionYamlPath = join(projectRoot, 'tests', 'fixtures', 'e2e', 'subs
 const sampleVlessUrl = 'vless://d7baecff-1956-46ce-c89c-bd81098d7223@zdegeuy2.bia3.top:21375?encryption=none&flow=xtls-rprx-vision&security=reality&sni=ndl.certainteed.com&fp=chrome&pbk=W9BjX6YmCIVsjhKMlz233Yoe0xcf0SVHfvPKqbf3vCg&type=tcp&headerType=none#A8320-%E5%BE%B7%E5%9B%BD-sing1';
 const subscriptionUrl = 'https://example.test/subscription.yaml?token=e2e-secret-token';
 const feishuSecret = 'secret_123';
+const FIXED_NOW = new Date('2026-03-31T12:00:00+08:00');
 
 type CliRunResult = {
   readonly exitCode: number;
@@ -111,7 +112,14 @@ const extractUploadedYaml = (body: string): string => {
   return match[1];
 };
 
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(FIXED_NOW);
+  nock.disableNetConnect();
+});
+
 afterEach(() => {
+  vi.useRealTimers();
   nock.cleanAll();
   nock.enableNetConnect();
 });
@@ -145,6 +153,16 @@ describe('full mocked workflow', () => {
         requests.push({ method: 'GET', path: '/subscription.yaml', query: { token: 'e2e-secret-token' } });
 
         return [200, subscriptionYaml, { 'Content-Type': 'application/yaml' }];
+      });
+
+    nock('https://app.mitce.net')
+      .persist()
+      .get('/')
+      .query({ sid: '564180', token: 'srvyubgg' })
+      .reply(() => {
+        requests.push({ method: 'GET', path: '/', query: { sid: '564180', token: 'srvyubgg' } });
+
+        return [200, 'proxies:\n  - name: US-1\n    type: direct\n', { 'Content-Type': 'application/yaml' }];
       });
 
     nock('https://open.feishu.cn')

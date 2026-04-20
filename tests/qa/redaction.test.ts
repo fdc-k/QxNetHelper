@@ -22,6 +22,7 @@ const createConfigRoot = async (subLink: string): Promise<string> => {
       folderUrl: 'https://feishu.cn/drive/folder/fldcnTestFolder123',
       folderToken: 'fldcnTestFolder123',
       subLink,
+      mitceLink: 'https://app.mitce.net/?sid=564180&token=srvyubgg',
       timezone: 'Asia/Shanghai',
       authMode: 'tenant_access_token',
       schemaVersion: 1,
@@ -92,6 +93,18 @@ describe('CLI output redaction', () => {
           [
             'proxies:',
             '  - name: Traffic Reset',
+            '    type: direct',
+            '',
+          ].join('\n'),
+          { status: 200, headers: { 'content-type': 'application/yaml' } },
+        );
+      }
+
+      if (url === 'https://app.mitce.net/?sid=564180&token=srvyubgg') {
+        return new globalThis.Response(
+          [
+            'proxies:',
+            '  - name: US-1',
             '    type: direct',
             '',
           ].join('\n'),

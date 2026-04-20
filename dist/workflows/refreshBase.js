@@ -1,8 +1,10 @@
+import { generateLineDiff } from "../diff/lineDiff.js";
 import { Buffer } from 'node:buffer';
 import { isMap, isScalar, isSeq } from 'yaml';
 import { getNextConfigFileName, selectLatestConfigFile } from '../yaml/configFiles.js';
 import { assertUniqueProxyNames, findTrafficResetProxy, getListenersSequence, getProxyGroupsSequence, getProxiesSequence, parseSingleYamlDocument, } from '../yaml/document.js';
 import { YamlPreconditionError } from '../yaml/errors.js';
+import { replaceMitceNodes } from './replaceMitce.js';
 const toConfigFileCandidates = (files) => {
     return files.map((file) => {
         return {
@@ -92,9 +94,11 @@ export const runRefreshBaseWorkflow = async (input, dependencies) => {
             message: 'Could not find a config_MMdd[_N].yaml file in the configured Feishu folder',
         });
     }
-    const document = parseSingleYamlDocument((await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8'));
+    const originalContent = (await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8');
+    const document = parseSingleYamlDocument(originalContent);
     const proxies = getProxiesSequence(document);
     const trafficResetIndex = replaceProxyTail(document, proxies, input.subscriptionTail);
+    const mitceReplacedCount = replaceMitceNodes(document, proxies, input.mitceNodes);
     const validProxyTargets = collectValidProxyTargets(document);
     assertUniqueProxyNames(proxies);
     validateListenerProxyReferences(document, validProxyTargets);
@@ -117,6 +121,9 @@ export const runRefreshBaseWorkflow = async (input, dependencies) => {
         subscriptionUrl: input.subscriptionUrl,
         replacedProxyCount: input.subscriptionTail.length,
         trafficResetIndex,
+        mitceSubscriptionUrl: input.mitceSubscriptionUrl,
+        mitceReplacedCount,
+        diff: generateLineDiff(originalContent, rendered),
     };
 };
 //# sourceMappingURL=refreshBase.js.map

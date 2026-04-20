@@ -1,6 +1,10 @@
 import { spawn } from 'node:child_process';
 import path from 'node:path';
-const CLI_PATH = path.resolve(process.cwd(), 'dist/cli.js');
+import { fileURLToPath } from 'node:url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// In dist/, this points to cli.js at the root of dist/
+// In src/, this points to src/cli.js (which doesn't exist at runtime after build)
+const CLI_PATH = path.resolve(__dirname, '../../dist/cli.js');
 const PROXY_URL_PATTERN = /(vless|vmess):\/\/[^\s，,]+/iu;
 const INIT_PATTERNS = [/初始化\s*qxnethelper/ui, /设置\s*qxnethelper\s*配置/ui, /配置\s*Feishu/ui];
 const UPDATE_ENV_PATTERNS = [

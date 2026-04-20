@@ -1,3 +1,4 @@
+import { generateLineDiff } from "../diff/lineDiff.js";
 import { Buffer } from 'node:buffer';
 
 import { isMap, isScalar, isSeq } from 'yaml';
@@ -15,6 +16,7 @@ import {
   parseSingleYamlDocument,
 } from '../yaml/document.js';
 import { YamlPreconditionError } from '../yaml/errors.js';
+import { replaceMitceNodes } from './replaceMitce.js';
 
 type DriveFile = ConfigFileLike & {
   readonly token: string;
@@ -37,6 +39,8 @@ export type RefreshBaseWorkflowInput = {
   readonly folderToken: string;
   readonly subscriptionUrl: string;
   readonly subscriptionTail: readonly SubscriptionProxy[];
+  readonly mitceSubscriptionUrl: string;
+  readonly mitceNodes: readonly SubscriptionProxy[];
 };
 
 export type RefreshBaseWorkflowResult = {
@@ -49,6 +53,9 @@ export type RefreshBaseWorkflowResult = {
   readonly subscriptionUrl: string;
   readonly replacedProxyCount: number;
   readonly trafficResetIndex: number;
+  readonly mitceSubscriptionUrl: string;
+  readonly mitceReplacedCount: number;
+  readonly diff: string;
 };
 
 export type RefreshBaseWorkflowDependencies = {
@@ -178,9 +185,14 @@ export const runRefreshBaseWorkflow = async (
     });
   }
 
-  const document = parseSingleYamlDocument((await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8'));
+  const originalContent = (await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8');
+  const document = parseSingleYamlDocument(originalContent);
   const proxies = getProxiesSequence(document);
+
   const trafficResetIndex = replaceProxyTail(document, proxies, input.subscriptionTail);
+
+  const mitceReplacedCount = replaceMitceNodes(document, proxies, input.mitceNodes);
+
   const validProxyTargets = collectValidProxyTargets(document);
 
   assertUniqueProxyNames(proxies);
@@ -207,5 +219,8 @@ export const runRefreshBaseWorkflow = async (
     subscriptionUrl: input.subscriptionUrl,
     replacedProxyCount: input.subscriptionTail.length,
     trafficResetIndex,
+    mitceSubscriptionUrl: input.mitceSubscriptionUrl,
+    mitceReplacedCount,
+    diff: generateLineDiff(originalContent, rendered),
   };
 };

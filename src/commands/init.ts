@@ -14,6 +14,7 @@ export type InitCommandOptions = {
   readonly appSecret: string;
   readonly configDir: string;
   readonly subLink: string;
+  readonly mitceLink?: string;
   readonly configRoot: string;
   readonly json?: boolean;
 };
@@ -30,6 +31,7 @@ export type InitCommandResult = {
   readonly configRoot: string;
   readonly folderToken: string;
   readonly subLink: string;
+  readonly mitceLink: string;
   readonly secrets: 'redacted';
 };
 
@@ -107,6 +109,7 @@ const executeInit = async (
     configRoot: normalized.configRoot,
     folderToken: normalized.config.folderToken,
     subLink: normalized.config.subLink,
+    mitceLink: normalized.config.mitceLink,
     secrets: 'redacted',
   };
 };
@@ -121,6 +124,7 @@ export const runInitCommand = async (
     appSecret: options.appSecret,
     configDir: options.configDir,
     subLink: options.subLink,
+    mitceLink: options.mitceLink,
     configRoot: options.configRoot,
     json: options.json ?? false,
   });

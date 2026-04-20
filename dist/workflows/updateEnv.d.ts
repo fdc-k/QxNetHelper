@@ -35,6 +35,7 @@ export type UpdateEnvWorkflowResult = {
     readonly proxyName: string;
     readonly region: string;
     readonly ip: string;
+    readonly diff: string;
 };
 export type UpdateEnvWorkflowDependencies = {
     readonly driveClient: DriveClientLike;

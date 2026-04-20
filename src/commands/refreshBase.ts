@@ -8,9 +8,12 @@ import { createFeishuDriveClient, type FeishuDriveClient } from '../feishu/drive
 import { FeishuRemoteError } from '../feishu/errors.js';
 import { formatCommandOutput } from '../output/redact.js';
 import { fetchSubscriptionTail, SubscriptionRemoteError } from '../subscription/fetch.js';
+import { extractMitceNodes } from '../subscription/extractMitce.js';
 import { SubscriptionSourceError } from '../subscription/parseYaml.js';
 import { type RefreshBaseWorkflowResult, runRefreshBaseWorkflow } from '../workflows/refreshBase.js';
 import { YamlPreconditionError } from '../yaml/errors.js';
+import { parseSingleYamlDocument } from '../yaml/document.js';
+import { getProxiesSequence } from '../yaml/document.js';
 
 export type RefreshBaseCommandOptions = {
   readonly configRoot: string;
@@ -31,6 +34,7 @@ type RefreshBaseCommandDependencies = {
   readonly now?: () => Date;
   readonly createDriveClient?: (input: { readonly appId: string; readonly appSecret: string }) => FeishuDriveClient;
   readonly fetchTail?: (url: string) => ReturnType<typeof fetchSubscriptionTail>;
+  readonly fetchMitceSource?: (url: string) => Promise<string>;
 };
 
 type RefreshBaseCommandFailure = {
@@ -56,10 +60,20 @@ const defaultDependencies: RefreshBaseCommandDependencies = {
     return createFeishuDriveClient({ tokenProvider, baseUrl });
   },
   fetchTail: (url: string) => fetchSubscriptionTail(url),
+  fetchMitceSource: async (url: string) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new SubscriptionRemoteError({
+        status: response.status,
+        message: `Mitce subscription request failed with status ${response.status}`,
+      });
+    }
+    return response.text();
+  },
 };
 
 const formatSuccessText = (result: RefreshBaseWorkflowResult): string => {
-  return `Refreshed ${result.sourceFile} -> ${result.outputFile} from ${result.subscriptionUrl}`;
+  return `Refreshed ${result.sourceFile} -> ${result.outputFile} from ${result.subscriptionUrl}\n\nKuromis: Replaced ${result.replacedProxyCount} proxies from index ${result.trafficResetIndex}\nMitce: Replaced/added ${result.mitceReplacedCount} JP/SG nodes\n\nChanges:\n${result.diff}`;
 };
 
 const formatErrorText = (result: RefreshBaseCommandFailure): string => {
@@ -120,12 +134,24 @@ export const runRefreshBaseCommand = async (
     throw new Error('Could not fetch subscription tail');
   }
 
+  const mitceSource = await resolvedDependencies.fetchMitceSource?.(storedState.config.mitceLink);
+
+  if (!mitceSource) {
+    throw new Error('Could not fetch mitce subscription');
+  }
+
+  const mitceDocument = parseSingleYamlDocument(mitceSource);
+  const mitceProxies = getProxiesSequence(mitceDocument);
+  const mitceNodes = extractMitceNodes(mitceProxies);
+
   return runRefreshBaseWorkflow(
     {
       configRoot: normalized.configRoot,
       folderToken: storedState.config.folderToken,
       subscriptionUrl: storedState.config.subLink,
       subscriptionTail,
+      mitceSubscriptionUrl: storedState.config.mitceLink,
+      mitceNodes,
     },
     {
       driveClient,

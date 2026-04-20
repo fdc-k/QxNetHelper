@@ -57,6 +57,13 @@ const SUBSCRIPTION_YAML = [
   '',
 ].join('\n');
 
+const MITCE_YAML = [
+  'proxies:',
+  '  - name: US-1',
+  '    type: direct',
+  '',
+].join('\n');
+
 const tempDirs: string[] = [];
 
 const createConfigRoot = async (): Promise<string> => {
@@ -69,6 +76,7 @@ const createConfigRoot = async (): Promise<string> => {
       folderUrl: 'https://feishu.cn/drive/folder/fldcnTestFolder123',
       folderToken: 'fldcnTestFolder123',
       subLink: SUBSCRIPTION_URL,
+      mitceLink: 'https://app.mitce.net/?sid=564180&token=srvyubgg',
       timezone: 'Asia/Shanghai',
       authMode: 'tenant_access_token',
       schemaVersion: 1,
@@ -99,6 +107,11 @@ describe('runRefreshBaseCommand listener reference validation', () => {
     nock('https://example.test')
       .get('/subscription.yaml')
       .reply(200, SUBSCRIPTION_YAML, { 'Content-Type': 'application/yaml' });
+
+    nock('https://app.mitce.net')
+      .get('/')
+      .query({ sid: '564180', token: 'srvyubgg' })
+      .reply(200, MITCE_YAML, { 'Content-Type': 'application/yaml' });
 
     nock('https://open.feishu.cn')
       .post('/open-apis/auth/v3/tenant_access_token/internal', {
@@ -144,6 +157,11 @@ describe('runRefreshBaseCommand listener reference validation', () => {
     nock('https://example.test')
       .get('/subscription.yaml')
       .reply(200, SUBSCRIPTION_YAML, { 'Content-Type': 'application/yaml' });
+
+    nock('https://app.mitce.net')
+      .get('/')
+      .query({ sid: '564180', token: 'srvyubgg' })
+      .reply(200, MITCE_YAML, { 'Content-Type': 'application/yaml' });
 
     nock('https://open.feishu.cn')
       .post('/open-apis/auth/v3/tenant_access_token/internal', {

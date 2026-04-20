@@ -2,6 +2,7 @@
 import { fileURLToPath } from 'node:url';
 import { Command, CommanderError } from 'commander';
 import { initCommand } from './commands/init.js';
+import { infoCommand } from './commands/info.js';
 import { refreshBaseCommand } from './commands/refreshBase.js';
 import { updateEnvCommand } from './commands/updateEnv.js';
 export const buildProgram = () => {
@@ -18,9 +19,16 @@ export const buildProgram = () => {
         .requiredOption('--app-secret <secret>', 'Feishu app secret')
         .requiredOption('--config-dir <dir>', 'Feishu folder URL or folder token')
         .requiredOption('--sub-link <url>', 'Clash subscription URL')
+        .option('--mitce-link <url>', 'Mitce subscription URL (default: https://app.mitce.net/?sid=564180&token=srvyubgg)')
         .option('--config-root <dir>', 'Configuration root directory', '.')
         .option('--json', 'Output in JSON format')
         .action(initCommand);
+    program
+        .command('info')
+        .description('Show current configuration')
+        .option('--config-root <dir>', 'Configuration root directory', '.')
+        .option('--json', 'Output in JSON format')
+        .action(infoCommand);
     program
         .command('update-env')
         .description('Update environment configuration')

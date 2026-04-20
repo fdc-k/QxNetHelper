@@ -65,7 +65,7 @@ const defaultDependencies: UpdateEnvCommandDependencies = {
 };
 
 const formatSuccessText = (result: UpdateEnvWorkflowResult): string => {
-  return `Updated ${result.sourceFile} -> ${result.outputFile} for env ${result.envId}`;
+  return `Updated ${result.sourceFile} -> ${result.outputFile} for env ${result.envId}\n\nChanges:\n${result.diff}`;
 };
 
 const formatErrorText = (result: UpdateEnvCommandFailure): string => {

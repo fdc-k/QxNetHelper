@@ -1,5 +1,5 @@
 import { URL } from 'node:url';
-import { CONFIG_AUTH_MODE, CONFIG_SCHEMA_VERSION, CONFIG_TIMEZONE, folderTokenSchema, folderUrlSchema, initInputSchema, persistedConfigSchema, persistedSecretsSchema, } from './schema.js';
+import { CONFIG_AUTH_MODE, CONFIG_SCHEMA_VERSION, CONFIG_TIMEZONE, DEFAULT_MITCE_LINK, folderTokenSchema, folderUrlSchema, initInputSchema, persistedConfigSchema, persistedSecretsSchema, } from './schema.js';
 export class ValidationError extends Error {
     code = 'validation_failed';
     constructor(message) {
@@ -51,6 +51,7 @@ export const normalizeInitInput = (input) => {
         folderUrl: folder.folderUrl,
         folderToken: folder.folderToken,
         subLink: parsedInput.data.subLink,
+        mitceLink: parsedInput.data.mitceLink ?? DEFAULT_MITCE_LINK,
         timezone: CONFIG_TIMEZONE,
         authMode: CONFIG_AUTH_MODE,
         schemaVersion: CONFIG_SCHEMA_VERSION,

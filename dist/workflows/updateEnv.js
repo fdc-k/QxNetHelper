@@ -1,3 +1,4 @@
+import { generateLineDiff } from "../diff/lineDiff.js";
 import { Buffer } from 'node:buffer';
 import { assertSupportedProxyScheme, getProxyName } from '../proxy/normalize.js';
 import { normalizeVlessUri } from '../proxy/vless.js';
@@ -66,7 +67,8 @@ export const runUpdateEnvWorkflow = async (input, dependencies) => {
     }
     const proxyName = toProxyName(input.envId);
     const listenerName = `${LISTENER_PREFIX}${proxyName}`;
-    const document = parseSingleYamlDocument((await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8'));
+    const originalContent = (await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8');
+    const document = parseSingleYamlDocument(originalContent);
     const listeners = getListenersSequence(document);
     const proxies = getProxiesSequence(document);
     const proxy = buildProxy(input.nodeUrl, input.envId);
@@ -96,6 +98,7 @@ export const runUpdateEnvWorkflow = async (input, dependencies) => {
         proxyName,
         region: input.region,
         ip: input.ip,
+        diff: generateLineDiff(originalContent, rendered),
     };
 };
 //# sourceMappingURL=updateEnv.js.map

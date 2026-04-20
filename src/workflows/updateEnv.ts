@@ -1,3 +1,4 @@
+import { generateLineDiff } from "../diff/lineDiff.js";
 import { Buffer } from 'node:buffer';
 
 import { assertSupportedProxyScheme, getProxyName, type MihomoProxy } from '../proxy/normalize.js';
@@ -51,6 +52,7 @@ export type UpdateEnvWorkflowResult = {
   readonly proxyName: string;
   readonly region: string;
   readonly ip: string;
+  readonly diff: string;
 };
 
 export type UpdateEnvWorkflowDependencies = {
@@ -145,7 +147,8 @@ export const runUpdateEnvWorkflow = async (
 
   const proxyName = toProxyName(input.envId);
   const listenerName = `${LISTENER_PREFIX}${proxyName}`;
-  const document = parseSingleYamlDocument((await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8'));
+  const originalContent = (await dependencies.driveClient.downloadFile(sourceFile.token)).toString('utf8');
+  const document = parseSingleYamlDocument(originalContent);
   const listeners = getListenersSequence(document);
   const proxies = getProxiesSequence(document);
   const proxy = buildProxy(input.nodeUrl, input.envId);
@@ -185,5 +188,6 @@ export const runUpdateEnvWorkflow = async (
     proxyName,
     region: input.region,
     ip: input.ip,
+    diff: generateLineDiff(originalContent, rendered),
   };
 };

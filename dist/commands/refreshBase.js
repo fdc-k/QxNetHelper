@@ -7,9 +7,12 @@ import { createFeishuDriveClient } from '../feishu/driveClient.js';
 import { FeishuRemoteError } from '../feishu/errors.js';
 import { formatCommandOutput } from '../output/redact.js';
 import { fetchSubscriptionTail, SubscriptionRemoteError } from '../subscription/fetch.js';
+import { extractMitceNodes } from '../subscription/extractMitce.js';
 import { SubscriptionSourceError } from '../subscription/parseYaml.js';
 import { runRefreshBaseWorkflow } from '../workflows/refreshBase.js';
 import { YamlPreconditionError } from '../yaml/errors.js';
+import { parseSingleYamlDocument } from '../yaml/document.js';
+import { getProxiesSequence } from '../yaml/document.js';
 const defaultDependencies = {
     writeOutput: (line) => {
         process.stdout.write(`${line}\n`);
@@ -23,9 +26,19 @@ const defaultDependencies = {
         return createFeishuDriveClient({ tokenProvider, baseUrl });
     },
     fetchTail: (url) => fetchSubscriptionTail(url),
+    fetchMitceSource: async (url) => {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new SubscriptionRemoteError({
+                status: response.status,
+                message: `Mitce subscription request failed with status ${response.status}`,
+            });
+        }
+        return response.text();
+    },
 };
 const formatSuccessText = (result) => {
-    return `Refreshed ${result.sourceFile} -> ${result.outputFile} from ${result.subscriptionUrl}`;
+    return `Refreshed ${result.sourceFile} -> ${result.outputFile} from ${result.subscriptionUrl}\n\nKuromis: Replaced ${result.replacedProxyCount} proxies from index ${result.trafficResetIndex}\nMitce: Replaced/added ${result.mitceReplacedCount} JP/SG nodes\n\nChanges:\n${result.diff}`;
 };
 const formatErrorText = (result) => {
     return `Error: ${result.error.message}`;
@@ -71,11 +84,20 @@ export const runRefreshBaseCommand = async (options, dependencies = {}) => {
     if (!subscriptionTail) {
         throw new Error('Could not fetch subscription tail');
     }
+    const mitceSource = await resolvedDependencies.fetchMitceSource?.(storedState.config.mitceLink);
+    if (!mitceSource) {
+        throw new Error('Could not fetch mitce subscription');
+    }
+    const mitceDocument = parseSingleYamlDocument(mitceSource);
+    const mitceProxies = getProxiesSequence(mitceDocument);
+    const mitceNodes = extractMitceNodes(mitceProxies);
     return runRefreshBaseWorkflow({
         configRoot: normalized.configRoot,
         folderToken: storedState.config.folderToken,
         subscriptionUrl: storedState.config.subLink,
         subscriptionTail,
+        mitceSubscriptionUrl: storedState.config.mitceLink,
+        mitceNodes,
     }, {
         driveClient,
         now: resolvedDependencies.now,

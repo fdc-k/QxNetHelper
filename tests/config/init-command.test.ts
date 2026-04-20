@@ -56,6 +56,7 @@ describe('runInitCommand', () => {
       configRoot: context.rootDir,
       folderToken: 'fldcnTestFolder123',
       subLink: 'https://example.test/subscription.yaml',
+      mitceLink: 'https://app.mitce.net/?sid=564180&token=srvyubgg',
       secrets: 'redacted',
     });
     expect(context.validator.validate).toHaveBeenCalledWith({
@@ -69,6 +70,7 @@ describe('runInitCommand', () => {
         '  "folderUrl": "https://feishu.cn/drive/folder/fldcnTestFolder123",\n' +
         '  "folderToken": "fldcnTestFolder123",\n' +
         '  "subLink": "https://example.test/subscription.yaml",\n' +
+        '  "mitceLink": "https://app.mitce.net/?sid=564180&token=srvyubgg",\n' +
         '  "timezone": "Asia/Shanghai",\n' +
         '  "authMode": "tenant_access_token",\n' +
         '  "schemaVersion": 1\n' +

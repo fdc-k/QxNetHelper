@@ -4,6 +4,7 @@ export type InitCommandOptions = {
     readonly appSecret: string;
     readonly configDir: string;
     readonly subLink: string;
+    readonly mitceLink?: string;
     readonly configRoot: string;
     readonly json?: boolean;
 };
@@ -18,6 +19,7 @@ export type InitCommandResult = {
     readonly configRoot: string;
     readonly folderToken: string;
     readonly subLink: string;
+    readonly mitceLink: string;
     readonly secrets: 'redacted';
 };
 export type CommandFailureResult = {

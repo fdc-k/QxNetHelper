@@ -22,6 +22,8 @@ export type RefreshBaseWorkflowInput = {
     readonly folderToken: string;
     readonly subscriptionUrl: string;
     readonly subscriptionTail: readonly SubscriptionProxy[];
+    readonly mitceSubscriptionUrl: string;
+    readonly mitceNodes: readonly SubscriptionProxy[];
 };
 export type RefreshBaseWorkflowResult = {
     readonly ok: true;
@@ -33,6 +35,9 @@ export type RefreshBaseWorkflowResult = {
     readonly subscriptionUrl: string;
     readonly replacedProxyCount: number;
     readonly trafficResetIndex: number;
+    readonly mitceSubscriptionUrl: string;
+    readonly mitceReplacedCount: number;
+    readonly diff: string;
 };
 export type RefreshBaseWorkflowDependencies = {
     readonly driveClient: DriveClientLike;

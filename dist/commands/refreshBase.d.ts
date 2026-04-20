@@ -14,6 +14,7 @@ type RefreshBaseCommandDependencies = {
         readonly appSecret: string;
     }) => FeishuDriveClient;
     readonly fetchTail?: (url: string) => ReturnType<typeof fetchSubscriptionTail>;
+    readonly fetchMitceSource?: (url: string) => Promise<string>;
 };
 export declare const runRefreshBaseCommand: (options: RefreshBaseCommandOptions, dependencies?: Partial<RefreshBaseCommandDependencies>) => Promise<RefreshBaseWorkflowResult>;
 export declare const refreshBaseCommand: (options: RefreshBaseCommandOptions) => Promise<void>;

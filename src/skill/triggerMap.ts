@@ -1,19 +1,23 @@
 import { spawn } from 'node:child_process';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export type TriggerType = 'init' | 'update-env' | 'refresh-base' | 'unsupported';
 
-export type TriggerResult =
+export type TriggerResult = 
   | { readonly type: 'init'; readonly argv: readonly string[] }
   | { readonly type: 'update-env'; readonly argv: readonly string[] }
   | { readonly type: 'refresh-base'; readonly argv: readonly string[] }
   | { readonly type: 'unsupported'; readonly reason: string };
 
-export type SkillResponse =
+export type SkillResponse = 
   | { readonly ok: true; readonly command: string; readonly output: unknown }
   | { readonly ok: false; readonly error: string; readonly message: string };
 
-const CLI_PATH = path.resolve(process.cwd(), 'dist/cli.js');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// In dist/, this points to cli.js at the root of dist/
+// In src/, this points to src/cli.js (which doesn't exist at runtime after build)
+const CLI_PATH = path.resolve(__dirname, '../../dist/cli.js');
 
 const PROXY_URL_PATTERN = /(vless|vmess):\/\/[^\s，,]+/iu;
 

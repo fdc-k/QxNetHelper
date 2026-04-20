@@ -10,6 +10,7 @@ import { refreshBaseCommand, runRefreshBaseCommand } from '../../src/commands/re
 import { persistConfig } from '../../src/config/store.js';
 
 const SUBSCRIPTION_URL = 'https://example.test/subscription.yaml';
+const MITCE_URL = 'https://app.mitce.net/?sid=564180&token=srvyubgg';
 
 const SOURCE_YAML = [
   'proxy-groups:',
@@ -58,6 +59,25 @@ const SUBSCRIPTION_YAML = [
   '',
 ].join('\n');
 
+const MITCE_YAML = [
+  'proxies:',
+  '  - name: JP-1',
+  '    type: vmess',
+  '    server: jp1.mitce.net',
+  '    port: 443',
+  '  - name: JP2-HY2',
+  '    type: hysteria2',
+  '    server: jp2.mitce.net',
+  '    port: 8443',
+  '  - name: SG-1',
+  '    type: vmess',
+  '    server: sg1.mitce.net',
+  '    port: 443',
+  '  - name: US-1',
+  '    type: direct',
+  '',
+].join('\n');
+
 const tempDirs: string[] = [];
 
 const createConfigRoot = async (): Promise<string> => {
@@ -70,6 +90,7 @@ const createConfigRoot = async (): Promise<string> => {
       folderUrl: 'https://feishu.cn/drive/folder/fldcnTestFolder123',
       folderToken: 'fldcnTestFolder123',
       subLink: SUBSCRIPTION_URL,
+      mitceLink: MITCE_URL,
       timezone: 'Asia/Shanghai',
       authMode: 'tenant_access_token',
       schemaVersion: 1,
@@ -101,6 +122,11 @@ describe('runRefreshBaseCommand', () => {
     nock('https://example.test')
       .get('/subscription.yaml')
       .reply(200, SUBSCRIPTION_YAML, { 'Content-Type': 'application/yaml' });
+
+    nock('https://app.mitce.net')
+      .get('/')
+      .query({ sid: '564180', token: 'srvyubgg' })
+      .reply(200, MITCE_YAML, { 'Content-Type': 'application/yaml' });
 
     nock('https://open.feishu.cn')
       .post('/open-apis/auth/v3/tenant_access_token/internal', {
@@ -152,6 +178,9 @@ describe('runRefreshBaseCommand', () => {
       subscriptionUrl: SUBSCRIPTION_URL,
       replacedProxyCount: 3,
       trafficResetIndex: 1,
+      mitceSubscriptionUrl: MITCE_URL,
+      mitceReplacedCount: 3,
+      diff: expect.any(String),
     });
     expect(uploadScope.isDone()).toBe(true);
     expect(uploadBody).toContain('name="file_name"\r\n\r\nconfig_0331_1.yaml');

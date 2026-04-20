@@ -124,6 +124,7 @@ describe('runUpdateEnvCommand', () => {
       proxyName: '830',
       region: '美国',
       ip: '192.89.1.42',
+      diff: expect.any(String),
     });
     expect(uploadScope.isDone()).toBe(true);
     expect(uploadBody).toContain('name="file_name"\r\n\r\nconfig_0331_1.yaml');

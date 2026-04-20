@@ -27,7 +27,7 @@ const defaultDependencies = {
     },
 };
 const formatSuccessText = (result) => {
-    return `Updated ${result.sourceFile} -> ${result.outputFile} for env ${result.envId}`;
+    return `Updated ${result.sourceFile} -> ${result.outputFile} for env ${result.envId}\n\nChanges:\n${result.diff}`;
 };
 const formatErrorText = (result) => {
     return `Error: ${result.error.message}`;

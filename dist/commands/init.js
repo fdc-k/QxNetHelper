@@ -59,6 +59,7 @@ const executeInit = async (normalized, dependencies) => {
         configRoot: normalized.configRoot,
         folderToken: normalized.config.folderToken,
         subLink: normalized.config.subLink,
+        mitceLink: normalized.config.mitceLink,
         secrets: 'redacted',
     };
 };
@@ -69,6 +70,7 @@ export const runInitCommand = async (options, dependencies = {}) => {
         appSecret: options.appSecret,
         configDir: options.configDir,
         subLink: options.subLink,
+        mitceLink: options.mitceLink,
         configRoot: options.configRoot,
         json: options.json ?? false,
     });
